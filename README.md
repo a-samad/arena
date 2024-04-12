@@ -310,3 +310,45 @@ See [contributing guidelines](CONTRIBUTING.md) and [an example](example/README.m
 The [MIT License](LICENSE).
 
 [docker-arena]: https://github.com/bee-queue/docker-arena
+
+
+# Cloudways
+## Folder structure on server
+
+#### Staging:
+```
+/var/www/html/event_service_monitoring/
+
+clone the repo with folder name bull_mon_stg
+
+git clone https://github.com/a-samad/arena.git
+```
+
+#### Production
+```
+/var/www/html/event_service_monitoring/
+git clone the repo with folder name bull_mon_prod
+```
+
+## Docker Build and Run Commands
+
+    Node9 Docker image: https://hub.docker.com/layers/library/node/9.0/images/sha256-e9d9f6d34ed21ba709ceeff5a6e27fb021561b3aa4b37fa70575d85fef77e9fd?context=explore
+    
+    With docker-compose.yaml
+    Add env variables in this file .env, this should not be the part of GIT repo 
+    Port on DEV/STG is 45678
+    Port on PROD is 4567
+
+    $ docker-compose build
+    $ docker-compose up -d
+    $ docker ps
+    CONTAINER ID   IMAGE                   COMMAND                  CREATED          STATUS          PORTS                                         NAMES
+    bd88e12166a0   bull_mon_stg_bull_mon   "pm2 start server.js…"   11 minutes ago   Up 11 minutes   0.0.0.0:45678->4567/tcp, :::45678->4567/tcp   bull_mon_stg_bull_mon_1
+
+    Without docker-compose.yaml
+    $ docker build -t bull_mon .
+    $ docker run -it -d --name cw_event_service_mon bull_mon
+
+    $ docker ps
+    CONTAINER ID   IMAGE      COMMAND                  CREATED         STATUS         PORTS      NAMES
+    5b017ecb71a4   bull_mon   "pm2 start index.js …"   2 seconds ago   Up 2 seconds   4567/tcp   cw_event_service_mon

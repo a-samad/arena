@@ -1,0 +1,17 @@
+version: '3.5'
+
+services:
+  bull_mon:
+    build: .
+    env_file:
+      - .env
+    ports:
+      - '45678:4567'
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    
+networks:
+  default:
+    external:
+      name: cw
